@@ -1,0 +1,42 @@
+{
+    "slow_internet": {
+        "symptom": "My internet is very slow.",
+        "solution": "Try restarting your router and checking your connection settings."
+    },
+    "app_crashing": {
+        "symptom": "The app keeps crashing on startup.",
+        "solution": "Update the app to the latest version and restart your device."
+    },
+    "forgot_password": {
+        "symptom": "I forgot my password.",
+        "solution": "Use the password reset option or contact support if you cannot access your account."
+    },
+    "wifi_not_connecting": {
+        "symptom": "My device won't connect to Wi-Fi.",
+        "solution": "Restart your router, make sure Wi-Fi is enabled, and reconnect to the network."
+    },
+    "computer_running_slow": {
+        "symptom": "My computer is running very slowly.",
+        "solution": "Close unnecessary programs, restart your computer, and check for software updates."
+    },
+    "printer_not_working": {
+        "symptom": "My printer is not printing.",
+        "solution": "Check that the printer is powered on, connected correctly, and has enough paper and ink."
+    },
+    "battery_draining": {
+        "symptom": "My laptop battery drains too quickly.",
+        "solution": "Reduce screen brightness, close unused applications, and enable battery saver mode."
+    },
+    "bluetooth_not_working": {
+        "symptom": "Bluetooth is not connecting to my device.",
+        "solution": "Turn Bluetooth off and on again, make sure the device is discoverable, and restart both devices."
+    },
+    "no_sound": {
+        "symptom": "I can't hear any sound from my computer.",
+        "solution": "Check the volume level, verify the correct audio output is selected, and restart the application."
+    },
+    "storage_full": {
+        "symptom": "My device says the storage is full.",
+        "solution": "Delete unnecessary files, empty the recycle bin, or move files to cloud storage or an external drive."
+    }
+}
