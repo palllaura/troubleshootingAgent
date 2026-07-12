@@ -1,4 +1,5 @@
 import json
+from validation_service import validate_message
 
 
 def load_knowledge_base(filename):
@@ -9,6 +10,15 @@ def load_knowledge_base(filename):
 knowledge_base = load_knowledge_base(
     "backend/troubleshooting_knowledge_base.json"
 )
+
+
+def validate_issue(user_input):
+    validation = validate_message(user_input)
+
+    if not validation.valid:
+        return {
+            "response": validation.message
+        }
 
 
 def find_issue(user_input):
