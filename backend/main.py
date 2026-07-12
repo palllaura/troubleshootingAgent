@@ -1,3 +1,5 @@
+import logging
+
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from starlette.responses import FileResponse
@@ -16,3 +18,13 @@ app.include_router(chat_router)
 def root():
     """Serve the chatbot interface."""
     return FileResponse("frontend/index.html")
+
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
+    handlers=[
+        logging.FileHandler("troubleshooting_agent.log"),
+        logging.StreamHandler()
+    ]
+)
