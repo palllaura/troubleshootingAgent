@@ -1,6 +1,10 @@
+import logging
+
 from fastapi import APIRouter
 
-from backend.services.diagnosis_service import find_issue
+from backend.services.diagnosis_service import process_message
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter(
     prefix="/chat",
@@ -10,6 +14,8 @@ router = APIRouter(
 
 @router.get("/")
 def chat_test():
+    logger.info("Health check endpoint called.")
+
     return {
         "response": "Chat router is working!"
     }
@@ -17,14 +23,6 @@ def chat_test():
 
 @router.post("/")
 def chat(message: str):
+    logger.info("Received chat request.")
 
-    issue, details = find_issue(message)
-
-    if issue is None:
-        return {
-            "response": "No matching issue found."
-        }
-
-    return {
-        "response": details["solution"]
-    }
+    return process_message(message)
