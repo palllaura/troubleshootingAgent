@@ -1,27 +1,67 @@
 import json
-from validation_service import validate_message
+import logging
+
+from backend.services.validation_service import validate_message
+
+logger = logging.getLogger(__name__)
 
 
-def load_knowledge_base(filename):
+def _load_knowledge_base(filename: str) -> dict:
+    """Load the troubleshooting knowledge base from a JSON file."""
+
+    logger.info("Loading knowledge base from %s", filename)
+
     with open(filename, "r") as file:
-        return json.load(file)
+        knowledge_base = json.load(file)
+
+    logger.info("Loaded %d troubleshooting issues.", len(knowledge_base))
+
+    return knowledge_base
 
 
-knowledge_base = load_knowledge_base(
+knowledge_base = _load_knowledge_base(
     "backend/troubleshooting_knowledge_base.json"
 )
 
 
-def validate_issue(user_input):
+def process_message(user_input: str) -> dict:
+    """
+    Main entry point for processing a user message.
+    """
+
+    logger.info("Processing user message.")
+
     validation = validate_message(user_input)
 
     if not validation.valid:
+        logger.warning("Message validation failed.")
         return {
             "response": validation.message
         }
 
+    issue, details = _find_issue(user_input)
 
-def find_issue(user_input):
+    if issue is None:
+        logger.info("No matching issue found.")
+        return {
+            "response": "I couldn't find a matching issue in my knowledge base."
+        }
+
+    logger.info("Matched issue: %s", issue)
+
+    return {
+        "issue": issue,
+        "solution": details["solution"],
+        "diagnostic": _diagnose_issue(issue),
+        "automation": _automate_fix(issue)
+    }
+
+
+def _find_issue(user_input: str):
+    """Search the knowledge base for a matching issue."""
+
+    logger.debug("Searching knowledge base.")
+
     for issue, details in knowledge_base.items():
         if details["symptom"].lower() in user_input.lower():
             return issue, details
@@ -29,7 +69,11 @@ def find_issue(user_input):
     return None, None
 
 
-def diagnose_issue(issue):
+def _diagnose_issue(issue: str):
+    """Return additional diagnostic guidance."""
+
+    logger.debug("Running diagnostic for '%s'.", issue)
+
     if issue == "slow_internet":
         return (
             "Have you restarted your router? "
@@ -39,8 +83,12 @@ def diagnose_issue(issue):
     return None
 
 
-def automate_fix(issue):
+def _automate_fix(issue: str):
+    """Simulate an automated fix."""
+
+    logger.debug("Attempting automated fix for '%s'.", issue)
+
     if issue == "slow_internet":
         return "Network settings have been reset."
 
-    return "Automation is not available for this issue."
+    return None
