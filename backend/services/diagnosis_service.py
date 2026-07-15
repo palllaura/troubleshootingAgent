@@ -1,6 +1,8 @@
 import json
 import logging
 
+from pathlib import Path
+
 from backend.services.validation_service import validate_message
 
 logger = logging.getLogger(__name__)
@@ -21,8 +23,10 @@ def _load_knowledge_base(filename: str) -> dict:
     return knowledge_base
 
 
+BASE_DIR = Path(__file__).resolve().parent.parent
+
 knowledge_base = _load_knowledge_base(
-    "backend/troubleshooting_knowledge_base.json"
+    BASE_DIR / "troubleshooting_knowledge_base.json"
 )
 
 
