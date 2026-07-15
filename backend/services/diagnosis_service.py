@@ -7,7 +7,9 @@ logger = logging.getLogger(__name__)
 
 
 def _load_knowledge_base(filename: str) -> dict:
-    """Load the troubleshooting knowledge base from a JSON file."""
+    """
+    Load the troubleshooting knowledge base from a JSON file.
+    """
 
     logger.info("Loading knowledge base from %s", filename)
 
@@ -26,7 +28,7 @@ knowledge_base = _load_knowledge_base(
 
 def process_message(user_input: str) -> dict:
     """
-    Main entry point for processing a user message.
+    Process a user message and return a troubleshooting response.
     """
 
     logger.info("Processing user message.")
@@ -35,21 +37,26 @@ def process_message(user_input: str) -> dict:
 
     if not validation.valid:
         logger.warning("Message validation failed.")
+
         return {
-            "response": validation.message
+            "success": False,
+            "message": validation.message
         }
 
     issue, details = _find_issue(user_input)
 
     if issue is None:
         logger.info("No matching issue found.")
+
         return {
-            "response": "I couldn't find a matching issue in my knowledge base."
+            "success": False,
+            "message": "I couldn't find a matching issue in my knowledge base."
         }
 
     logger.info("Matched issue: %s", issue)
 
     return {
+        "success": True,
         "issue": issue,
         "solution": details["solution"],
         "diagnostic": _diagnose_issue(issue),
@@ -58,7 +65,9 @@ def process_message(user_input: str) -> dict:
 
 
 def _find_issue(user_input: str):
-    """Search the knowledge base for a matching issue."""
+    """
+    Search the knowledge base for a matching issue.
+    """
 
     logger.debug("Searching knowledge base.")
 
@@ -70,9 +79,11 @@ def _find_issue(user_input: str):
 
 
 def _diagnose_issue(issue: str):
-    """Return additional diagnostic guidance."""
+    """
+    Return additional troubleshooting guidance.
+    """
 
-    logger.debug("Running diagnostic for '%s'.", issue)
+    logger.debug("Running diagnostics for '%s'.", issue)
 
     if issue == "slow_internet":
         return (
@@ -84,7 +95,9 @@ def _diagnose_issue(issue: str):
 
 
 def _automate_fix(issue: str):
-    """Simulate an automated fix."""
+    """
+    Simulate an automated fix.
+    """
 
     logger.debug("Attempting automated fix for '%s'.", issue)
 
